@@ -21,8 +21,9 @@ public class SKU {
     private int quantity;
     private Date expiry_date;
 
-    @Column(name = "containers")
+    @Column(name = "container_id")
     @ElementCollection(targetClass = Integer.class)
+    @CollectionTable(name = "sku_containers", joinColumns = @JoinColumn(name = "sku_id"))
     private List<Integer> containerList;
 
 }

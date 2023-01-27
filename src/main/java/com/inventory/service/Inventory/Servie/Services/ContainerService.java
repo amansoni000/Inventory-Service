@@ -32,10 +32,9 @@ public class ContainerService  implements ContainerDao {
                 List<Container> container_list = new ArrayList<>();
                 while(rs.next()){
                     Container container = new Container();
-//                    container.setContainer_id(rs.getInt("container_id"));
+                    container.setContainer_id(rs.getInt("container_id"));
                     container.setMax_limit(rs.getInt("max_limit"));
                     container.setCurrent(rs.getInt("current"));
-//                    container.setSku_id(rs.getInt("sku_id"));
                     container_list.add(container);
                 }
                 return container_list;
@@ -47,7 +46,6 @@ public class ContainerService  implements ContainerDao {
     public int addContainer(Container container) {
         String query = "Insert into container (max_limit, current) Values (:max_limit, :current)";
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-//        mapSqlParameterSource.addValue("container_id", container.getContainer_id());
         mapSqlParameterSource.addValue("max_limit", container.getMax_limit());
         mapSqlParameterSource.addValue("current", container.getCurrent());
         return namedParameterJdbcTemplate.update(query, mapSqlParameterSource);
