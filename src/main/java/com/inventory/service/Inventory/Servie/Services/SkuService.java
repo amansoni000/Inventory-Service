@@ -27,7 +27,6 @@ public class SkuService implements SkuDao {
 
     @Override
     public List<SKU> getAll() {
-//        logger.f
         String query = "SELECT * FROM sku s Left join sku_containers scl on s.sku_id = scl.sku_id";
         return jdbcTemplate.query(query, new ResultSetExtractor<List<SKU>>() {
             @Override
