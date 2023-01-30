@@ -38,8 +38,8 @@ public class SkuService implements SkuDao {
                     sku.setQuantity(rs.getInt("quantity"));
                     sku.setName(rs.getString("name"));
                     sku.setExpiry_date(rs.getDate("expiry_date"));
-                    List<Integer> list = sku.getContainerList();
-                    if(rs.getInt("container_id") == 0) list.add(rs.getInt("container_id"));
+                    List<Integer> list = sku.getContainerList() == null ? new ArrayList<>() : sku.getContainerList();
+                    list.add(rs.getInt("container_id"));
                     sku.setContainerList(list);
                     map.put(rs.getInt("sku_id"), sku);
                 }
@@ -50,6 +50,27 @@ public class SkuService implements SkuDao {
         });
     }
 
+
+    @Override
+    public SKU getSkuById(int id) {
+        String query = "SELECT * FROM sku Inner Join sku_containers sc on sku.sku_id = sc.sku_id where sku.sku_id = ?";
+        return jdbcTemplate.query(query, new Object[] {id},new ResultSetExtractor<SKU>() {
+            @Override
+            public SKU extractData(ResultSet rs) throws SQLException, DataAccessException {
+                SKU sku = new SKU();
+                List<Integer> list = new ArrayList<>();
+                while (rs.next()) {
+                    sku.setSku_id(rs.getInt("sku_id"));
+                    sku.setQuantity(rs.getInt("quantity"));
+                    sku.setName(rs.getString("name"));
+                    sku.setExpiry_date(rs.getDate("expiry_date"));
+                    list.add(rs.getInt("container_id"));
+                }
+                sku.setContainerList(list);
+                return sku;
+            }
+        });
+    }
 
     @Override
     public void mapContainer(String request, int added_quantity, int added_id, Object object) throws SQLException {
@@ -188,6 +209,4 @@ public class SkuService implements SkuDao {
             }
         }
     }
-
-
 }

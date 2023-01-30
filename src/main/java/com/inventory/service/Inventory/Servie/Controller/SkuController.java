@@ -20,6 +20,11 @@ public class SkuController {
         return skuDao.getAll();
     }
 
+    @GetMapping("sku/{id}")
+    public SKU getSkuById(@PathVariable int id){
+        return skuDao.getSkuById(id);
+    }
+
     @PostMapping("sku")
     public ResponseEntity<Object> addSku(@RequestBody SKU sku) throws SQLException {
         skuDao.mapContainer("POST" ,0, 0, sku);

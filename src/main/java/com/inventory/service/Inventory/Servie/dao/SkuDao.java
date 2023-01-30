@@ -12,4 +12,6 @@ public interface SkuDao{
 
 
     void mapContainer(String post, int added_quantity, int added_id, Object object) throws SQLException;
+
+    SKU getSkuById(int id);
 }
